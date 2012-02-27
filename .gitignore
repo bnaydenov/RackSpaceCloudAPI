@@ -3,4 +3,4 @@
 /RackSpaceCloudServersAPI/bin/*
 /ConsoleClient/obj/*
 /RackSpaceCloudServersAPI/obj/*
-/ConsoleClient/app.config
+/consoleclient/app-Working.config
