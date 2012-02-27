@@ -1,0 +1,23 @@
+RackSpaceCloud API C#
+
+SCOPE OF THE PROJECT:
+Implement all RackSpaceCloud API functionality as wrapper C# library (original API here: http://docs.rackspace.com/api/)
+
+
+ROAD MAP AND CURRENT STATUS:
+
+1. RackSpaceCloudServers this is a C# wrapper library to access functionality found in original RackSpaceCloudServerAPI at http://docs.rackspace.com/servers/api/cs-devguide-latest/index.html
+
+1.1. Currently implemented feature from API 
+1.1.1. Servers functionality
+		- List servers
+		- List server’s details
+		
+
+		2. RackSpaceCloudLoadBalancer found at http://www.rackspace.com/cloud/cloud_hosting_products/loadbalancers/
+Will be implemented after RackSpaceCloudServers
+
+
+
+3. RackSpaceCloudDNS found at http://docs.rackspace.com/cdns/api/cdns-devguide-latest/index.html
+Will be implemented after RackSpaceLoadBalancer
