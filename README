@@ -12,7 +12,7 @@ ROAD MAP AND CURRENT STATUS:
 1.1.1. Servers functionality
 		- List servers
 		- List server’s details
-		
+		- Get Server details 
 
 2. RackSpaceCloudLoadBalancer found at http://www.rackspace.com/cloud/cloud_hosting_products/loadbalancers/
 Will be implemented after RackSpaceCloudServers

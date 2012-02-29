@@ -15,7 +15,6 @@ namespace RackSpaceCloudServersAPI
             this._authInfo = authInfo;
         }
 
-
         public List<RackSpaceCloudServer> ListServers(bool details = false)
         {
             List<RackSpaceCloudServer> result = new List<RackSpaceCloudServer>();
@@ -38,39 +37,7 @@ namespace RackSpaceCloudServersAPI
             {
                 if (details)
                 {
-                    List<string> tempPublicIP = new List<string>();
-                    List<string> tempPrivateIP = new List<string>();
-                    
-
-                    if (server.addresses.@public is ICollection<object>)
-                    {
-                        foreach (var ip in server.addresses.@public)
-                        {
-                            tempPublicIP.Add(Convert.ToString(ip.Unknown));       
-                        }
-                        
-                    }
-                    
-                    if (server.addresses.@private is ICollection<object>)
-                    {
-                        foreach (var ip in server.addresses.@private)
-                        {
-                            tempPrivateIP.Add(Convert.ToString(ip.Unknown));
-                        }
-
-                    }
-
-                    result.Add(new RackSpaceCloudServer
-                    {
-                        id = server.id,
-                        name = server.name,
-                        imageId = server.imageId,
-                        flavorId = server.flavorId,
-                        hostId = server.hostId,
-                        status = server.status,
-                        progress = server.progress,
-                        addresses = new RackSpaceCloudServerIPAdress { privateIP = tempPrivateIP, publicIP = tempPublicIP },
-                    });
+                    result.Add(ExpandoToRackSpaceCloudServerObject(server));
                 }
                 else
                 {
@@ -81,6 +48,60 @@ namespace RackSpaceCloudServersAPI
             
             return result;
         }
+
+
+        public RackSpaceCloudServer GetServerDetails(string serverId)
+        {
+
+            var request = new RackSpaceCloudRequest(this._authInfo.ServerManagementUrl, this._authInfo.AuthToken);
+
+            var serverDetails = request.GetRequest(String.Format("/servers/{0}",serverId));
+
+            var server = ExpandoToRackSpaceCloudServerObject(serverDetails.server);
+
+            return server;
+        }
+
+        
+        private RackSpaceCloudServer ExpandoToRackSpaceCloudServerObject(dynamic server)
+        {
+
+            List<string> tempPublicIP = new List<string>();
+            List<string> tempPrivateIP = new List<string>();
+
+
+            if (server.addresses.@public is ICollection<object>)
+            {
+                foreach (var ip in server.addresses.@public)
+                {
+                    tempPublicIP.Add(Convert.ToString(ip.Unknown));
+                }
+
+            }
+
+            if (server.addresses.@private is ICollection<object>)
+            {
+                foreach (var ip in server.addresses.@private)
+                {
+                    tempPrivateIP.Add(Convert.ToString(ip.Unknown));
+                }
+
+            }
+
+            var result = new RackSpaceCloudServer
+            {
+                id = server.id,
+                name = server.name,
+                imageId = server.imageId,
+                flavorId = server.flavorId,
+                hostId = server.hostId,
+                status = server.status,
+                progress = server.progress,
+                addresses = new RackSpaceCloudServerIPAdress { privateIP = tempPrivateIP, publicIP = tempPublicIP },
+            };
+
+            return result;
+        }        
 
     }
 }
