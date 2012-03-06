@@ -42,7 +42,23 @@ namespace RackSpaceCloudServersAPI
             //Write post data
             if (method == "POST" && postData != null)
             {
-                string json = postData.ToString();
+                string json = postData.Flatten();
+                /*string json = @"{
+    ""server"" : {
+        ""name"" : ""new-server-test"",
+        ""imageId"" : 112,
+        ""flavorId"" : 2,
+       
+    }
+}";*/
+
+//                string json = @"{
+//	server: {
+//		""name"":""MyFirstServerAPI"",
+//		""imageId"":112,
+//		""flavorId"":2
+//	}
+//}";
                 var bytes = Encoding.ASCII.GetBytes(json);
                 request.ContentLength = bytes.Length;
                 var requestStream = request.GetRequestStream();

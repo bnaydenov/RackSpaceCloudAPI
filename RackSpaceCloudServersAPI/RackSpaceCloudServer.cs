@@ -29,4 +29,22 @@ namespace RackSpaceCloudServersAPI
         public string serverLabel {get;set;}
         public string imageVersion {get;set;}
     }
+
+    public class Personality
+    {
+        public string path { get; set; }
+        public string contents { get; set; }
+    }
+
+    public enum RackSpaceCloudServerFlavor
+    {
+        RAM256 = 1,
+        RAM512 = 2, 
+        RAM1024 = 3,
+        RAM2048 = 4,
+        RAM4096 = 5,
+        RAM8192 = 6,
+        RAM15872 = 7,
+        RAM30720 = 8,
+    }
 }

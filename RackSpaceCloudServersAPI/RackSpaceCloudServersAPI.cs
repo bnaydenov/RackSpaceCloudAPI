@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Dynamic;
 
 
 namespace RackSpaceCloudServersAPI
@@ -62,7 +63,48 @@ namespace RackSpaceCloudServersAPI
             return server;
         }
 
-        
+
+        public RackSpaceCloudServer CreateServer(string serverName, int imageId, RackSpaceCloudServerFlavor flavorId, Dictionary<string, string> metadata = null, List<Personality> personality = null)
+        {
+
+            var request = new RackSpaceCloudRequest(this._authInfo.ServerManagementUrl, this._authInfo.AuthToken);
+            dynamic data = new ExpandoObject();
+            data.server = new ExpandoObject();
+            data.server.name = serverName;
+            data.server.imageId = imageId;
+            data.server.flavorId = flavorId;
+                  
+            data.server.personality = personality;
+            data.server.metadata = metadata;
+            
+            dynamic response = request.Request("POST", "/servers", data);
+
+            return ExpandoToRackSpaceCloudServerObject(response.server);
+        }
+
+
+        public List<string> ListImages()
+        {
+            
+            List<string> listImages = new List<string>();
+            
+            RackSpaceCloudServer server = new RackSpaceCloudServer();
+
+            var request = new RackSpaceCloudRequest(this._authInfo.ServerManagementUrl, this._authInfo.AuthToken);
+
+
+            var images = request.GetRequest("/images");
+
+            foreach (var image in images.images)
+            {
+                listImages.Add(string.Format("Id: {0}", image.id));
+                listImages.Add(string.Format("Name: {0}", image.name));
+            }
+
+            return listImages;
+        }
+
+
         private RackSpaceCloudServer ExpandoToRackSpaceCloudServerObject(dynamic server)
         {
 
@@ -104,4 +146,6 @@ namespace RackSpaceCloudServersAPI
         }        
 
     }
+
+
 }

@@ -45,12 +45,34 @@ namespace ConsoleClient
                 {
                     GetServerDetails(rackSpaceCloudUserName, rackSpaceCloudAPIKey, rackSpaceCloudAuthManagementURL, myargs["d"].ToString());
                 }
-
+                //-c create server
+                else if (myargs.ContainsKey("c"))
+                {
+                    CreateServer(rackSpaceCloudUserName, rackSpaceCloudAPIKey, rackSpaceCloudAuthManagementURL);
+                }
          }
 
             Console.ReadKey();
         }
 
+
+        private static void CreateServer(string rackSpaceCloudUserName, string rackSpaceCloudAPIKey, string rackSpaceCloudAuthManagementURL)
+        {
+            
+            Dictionary<string,string> metadata = new Dictionary<string, string>();
+            metadata.Add("role", "My DB VM");
+
+            AuthInfo authToken = GetRackSpaceAuthInfo(rackSpaceCloudUserName, rackSpaceCloudAPIKey, rackSpaceCloudAuthManagementURL);
+
+            RackSpaceCloudServersAPI.RackSpaceCloudServersAPI rackSpaceCloudServersAPI = new RackSpaceCloudServersAPI.RackSpaceCloudServersAPI(authToken);
+
+
+            var serverDetails = rackSpaceCloudServersAPI.CreateServer("TestAPIServer", 112, RackSpaceCloudServersAPI.RackSpaceCloudServerFlavor.RAM256, metadata);
+            PrintServerDetails(serverDetails);
+            //var listImages = rackSpaceCloudServersAPI.ListImages();
+
+        }
+        
         
         private static void GetServerDetails(string rackSpaceCloudUserName, string rackSpaceCloudAPIKey, string rackSpaceCloudAuthManagementURL, string serverId)
         {
