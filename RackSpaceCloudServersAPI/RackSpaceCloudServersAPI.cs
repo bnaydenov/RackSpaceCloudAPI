@@ -73,9 +73,9 @@ namespace RackSpaceCloudServersAPI
             data.server.name = serverName;
             data.server.imageId = imageId;
             data.server.flavorId = flavorId;
-                  
+            data.server.metadata = metadata;      
             data.server.personality = personality;
-            data.server.metadata = metadata;
+            
             
             dynamic response = request.Request("POST", "/servers", data);
 

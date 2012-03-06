@@ -50,6 +50,7 @@
     <Compile Include="RackSpaceCloudRequest.cs" />
     <Compile Include="RackSpaceCloudSecurity.cs" />
     <Compile Include="RackSpaceCloudServer.cs" />
+    <Compile Include="RackSpaceCloudServerImages.cs" />
     <Compile Include="RackSpaceCloudServersAPI.cs" />
   </ItemGroup>
   <ItemGroup>

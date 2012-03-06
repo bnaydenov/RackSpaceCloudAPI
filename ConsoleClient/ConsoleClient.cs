@@ -23,6 +23,8 @@ namespace ConsoleClient
             usageSyntax.Append("CosoleClient.exe -l or CosoleClient.exe -list\n\r\n\r");
             usageSyntax.Append("To get details about given RackspaceCloud servers use:\n\r\n\r");
             usageSyntax.Append("CosoleClient.exe -d=serverId a.k.a CosoleClient.exe -d=12345 \n\r\n\r");
+            usageSyntax.Append("To create new RackspaceCloud server use:\n\r\n\r");
+            usageSyntax.Append("CosoleClient.exe -c=ServerName \n\r\n\r");
 
             usageSyntax.Append("NB: Don't forget to add your RackSpaceCloud \"Username\" and \"API key\" in app.config file");
 
@@ -48,7 +50,7 @@ namespace ConsoleClient
                 //-c create server
                 else if (myargs.ContainsKey("c"))
                 {
-                    CreateServer(rackSpaceCloudUserName, rackSpaceCloudAPIKey, rackSpaceCloudAuthManagementURL);
+                    CreateServer(rackSpaceCloudUserName, rackSpaceCloudAPIKey, rackSpaceCloudAuthManagementURL, myargs["c"].ToString());
                 }
          }
 
@@ -56,19 +58,25 @@ namespace ConsoleClient
         }
 
 
-        private static void CreateServer(string rackSpaceCloudUserName, string rackSpaceCloudAPIKey, string rackSpaceCloudAuthManagementURL)
+        private static void CreateServer(string rackSpaceCloudUserName, string rackSpaceCloudAPIKey, string rackSpaceCloudAuthManagementURL, string serverName)
         {
             
             Dictionary<string,string> metadata = new Dictionary<string, string>();
-            metadata.Add("role", "My DB VM");
+            metadata.Add("key", "value");
 
+            List<Personality> personality = new List<Personality>();
+            personality.Add(new Personality { path="",contents=""});
+            
             AuthInfo authToken = GetRackSpaceAuthInfo(rackSpaceCloudUserName, rackSpaceCloudAPIKey, rackSpaceCloudAuthManagementURL);
 
             RackSpaceCloudServersAPI.RackSpaceCloudServersAPI rackSpaceCloudServersAPI = new RackSpaceCloudServersAPI.RackSpaceCloudServersAPI(authToken);
 
-
-            var serverDetails = rackSpaceCloudServersAPI.CreateServer("TestAPIServer", 112, RackSpaceCloudServersAPI.RackSpaceCloudServerFlavor.RAM256, metadata);
+            //imageId=118 -> CentOS 6; 
+            //imageId=112 -> Ubuntu 10.0.4 LTS; 
+            var serverDetails = rackSpaceCloudServersAPI.CreateServer(serverName, 118, RackSpaceCloudServersAPI.RackSpaceCloudServerFlavor.RAM256, metadata, personality);
             PrintServerDetails(serverDetails);
+            
+            //get available images to crete new VM
             //var listImages = rackSpaceCloudServersAPI.ListImages();
 
         }
