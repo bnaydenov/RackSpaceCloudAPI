@@ -26,7 +26,7 @@ namespace ConsoleClient
             usageSyntax.Append("To create new RackspaceCloud server use:\n\r\n\r");
             usageSyntax.Append("CosoleClient.exe -c=ServerName \n\r\n\r");
             usageSyntax.Append("To delete RackspaceCloud server use:\n\r\n\r");
-            usageSyntax.Append("CosoleClient.exe -d=serverID a.k.a CosoleClient.exe -delete=12345 \n\r\n\r");
+            usageSyntax.Append("CosoleClient.exe -delete=serverID a.k.a CosoleClient.exe -delete=12345 \n\r\n\r");
 
             usageSyntax.Append("NB: Don't forget to add your RackSpaceCloud \"Username\" and \"API key\" in app.config file");
 
