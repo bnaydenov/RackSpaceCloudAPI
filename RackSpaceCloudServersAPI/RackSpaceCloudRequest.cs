@@ -61,7 +61,14 @@ namespace RackSpaceCloudServersAPI
                 }
             }
 
-            return response.ToExpando();
+            if (string.IsNullOrEmpty(response))
+            {
+                return null;
+            }
+            else
+            {
+                return response.ToExpando();
+            }
         }
 
         internal dynamic Request(string method, string serviceUrl)

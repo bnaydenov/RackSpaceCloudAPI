@@ -10,10 +10,10 @@ ROAD MAP AND CURRENT STATUS:
 
 1.1. Currently implemented feature from API 
 1.1.1. Servers functionality
-		- List servers
-		- List server’s details
+		- List servers (with or without full server’s details)
 		- Get Server details 
 		- Create Server
+		- Delete Server
 
 2. RackSpaceCloudLoadBalancer found at http://www.rackspace.com/cloud/cloud_hosting_products/loadbalancers/
 Will be implemented after RackSpaceCloudServers

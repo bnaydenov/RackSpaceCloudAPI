@@ -25,6 +25,8 @@ namespace ConsoleClient
             usageSyntax.Append("CosoleClient.exe -d=serverId a.k.a CosoleClient.exe -d=12345 \n\r\n\r");
             usageSyntax.Append("To create new RackspaceCloud server use:\n\r\n\r");
             usageSyntax.Append("CosoleClient.exe -c=ServerName \n\r\n\r");
+            usageSyntax.Append("To delete RackspaceCloud server use:\n\r\n\r");
+            usageSyntax.Append("CosoleClient.exe -d=serverID a.k.a CosoleClient.exe -delete=12345 \n\r\n\r");
 
             usageSyntax.Append("NB: Don't forget to add your RackSpaceCloud \"Username\" and \"API key\" in app.config file");
 
@@ -52,9 +54,33 @@ namespace ConsoleClient
                 {
                     CreateServer(rackSpaceCloudUserName, rackSpaceCloudAPIKey, rackSpaceCloudAuthManagementURL, myargs["c"].ToString());
                 }
+                //-delete=serverID delete server
+                else if (myargs.ContainsKey("delete"))
+                {
+                    DeleteServer(rackSpaceCloudUserName, rackSpaceCloudAPIKey, rackSpaceCloudAuthManagementURL,myargs["delete"].ToString());
+                }
          }
 
             Console.ReadKey();
+        }
+
+        private static void DeleteServer(string rackSpaceCloudUserName, string rackSpaceCloudAPIKey, string rackSpaceCloudAuthManagementURL, string serverId)
+        {
+            AuthInfo authToken = GetRackSpaceAuthInfo(rackSpaceCloudUserName, rackSpaceCloudAPIKey, rackSpaceCloudAuthManagementURL);
+
+            RackSpaceCloudServersAPI.RackSpaceCloudServersAPI rackSpaceCloudServersAPI = new RackSpaceCloudServersAPI.RackSpaceCloudServersAPI(authToken);
+
+            var serverDetails = rackSpaceCloudServersAPI.DeleteServer(serverId);
+
+            if (serverDetails)
+            {
+                Console.WriteLine("Deleting server with id: " + serverId + " was successfull!!");
+            }
+            else
+            {
+                Console.WriteLine("ERROR!!! Deleting server with id: " + serverId);
+            }
+            
         }
 
 

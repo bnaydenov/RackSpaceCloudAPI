@@ -82,6 +82,23 @@ namespace RackSpaceCloudServersAPI
             return ExpandoToRackSpaceCloudServerObject(response.server);
         }
 
+        
+        public bool DeleteServer(string serverId)
+        {
+            try
+            {
+                var request = new RackSpaceCloudRequest(this._authInfo.ServerManagementUrl, this._authInfo.AuthToken);
+
+                dynamic response = request.Request("DELETE", "/servers/" + serverId);
+            }
+            catch 
+            {
+                return false;
+            }
+            
+            return true;
+        }
+
 
         public List<string> ListImages()
         {
@@ -143,8 +160,8 @@ namespace RackSpaceCloudServersAPI
             };
 
             return result;
-        }        
-
+        }
+       
     }
 
 

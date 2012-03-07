@@ -51,7 +51,7 @@ namespace RackSpaceCloudServersAPI
         {
             ExpandoObject expandoObject = new ExpandoObject();
             IDictionary<string, object> objects = expandoObject;
-
+            
             foreach (var item in dictionary)
             {
                 bool processed = false;
