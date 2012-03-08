@@ -59,9 +59,44 @@ namespace ConsoleClient
                 {
                     DeleteServer(rackSpaceCloudUserName, rackSpaceCloudAPIKey, rackSpaceCloudAuthManagementURL,myargs["delete"].ToString());
                 }
+                //-updateservername=newServerName server name
+                else if (myargs.ContainsKey("updateservername") && !myargs.ContainsKey("newpwd"))
+                {
+                    UpdateServer(myargs["updateservername"].ToString());
+                }
+                //-newpwd=newPassword update server password
+                else if (myargs.ContainsKey("newpwd") && !myargs.ContainsKey("updateservername"))
+                {
+                    UpdateServer("", myargs["newpwd"].ToString());
+                }
+                //-updateservername=newServerName server name and && -newpwd=newPassword update server password
+                else if (myargs.ContainsKey("updateservername") && myargs.ContainsKey("newpwd"))
+                {
+                    UpdateServer(myargs["updateservername"].ToString(), myargs["newpwd"].ToString());
+                }
          }
 
             Console.ReadKey();
+        }
+
+        private static void UpdateServer(string newServerName, string newPassword = null)
+        {
+            //change only password
+            if (string.IsNullOrWhiteSpace(newServerName) && !string.IsNullOrWhiteSpace(newPassword))
+            {
+                Console.WriteLine("Update password only");
+            }
+            //change only servername
+            else if ((!string.IsNullOrWhiteSpace(newServerName) && string.IsNullOrWhiteSpace(newPassword)))
+            {
+                Console.WriteLine("Update servername only");
+            }
+            //change servername and password
+            else if (!string.IsNullOrWhiteSpace(newServerName) && !string.IsNullOrWhiteSpace(newPassword))
+            {
+                Console.WriteLine("Update both servername and password");
+            }
+   
         }
 
         private static void DeleteServer(string rackSpaceCloudUserName, string rackSpaceCloudAPIKey, string rackSpaceCloudAuthManagementURL, string serverId)
