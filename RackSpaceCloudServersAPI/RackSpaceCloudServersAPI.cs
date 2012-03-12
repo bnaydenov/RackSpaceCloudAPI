@@ -100,6 +100,55 @@ namespace RackSpaceCloudServersAPI
         }
 
 
+        public bool UpdateServerName(string serverId, string newServerName)
+        {
+
+            try
+            {
+                var request = new RackSpaceCloudRequest(this._authInfo.ServerManagementUrl, this._authInfo.AuthToken);
+                
+                dynamic data = new ExpandoObject();
+                data.server = new ExpandoObject();
+                data.server.name = newServerName;
+                //data.server.adminPass = newPassword;
+
+                dynamic response = request.Request("PUT", "/servers/" + serverId, data);
+
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+
+        public bool UpdateServerPass(string serverId, string newPassword)
+        {
+
+            try
+            {
+                var request = new RackSpaceCloudRequest(this._authInfo.ServerManagementUrl, this._authInfo.AuthToken);
+
+                dynamic data = new ExpandoObject();
+                data.server = new ExpandoObject();
+                //data.server.name = newServerName;
+                data.server.adminPass = newPassword;
+
+                dynamic response = request.Request("PUT", "/servers/" + serverId, data);
+
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+
+        
         public List<string> ListImages()
         {
             

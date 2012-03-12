@@ -40,7 +40,7 @@ namespace RackSpaceCloudServersAPI
             request.Headers["X-Auth-Token"] = _authToken;
 
             //Write post data
-            if (method == "POST" && postData != null)
+            if (method == "POST" && postData != null || method == "PUT" && postData != null)
             {
                 string json = postData.Flatten();
      
@@ -53,14 +53,13 @@ namespace RackSpaceCloudServersAPI
 
             string response;
 
-            using (var webResponse = request.GetResponse())
+            using (var webResponse =  request.GetResponse())
             {
                 using (var streamReader = new StreamReader(webResponse.GetResponseStream()))
                 {
                     response = streamReader.ReadToEnd();
                 }
             }
-
             if (string.IsNullOrEmpty(response))
             {
                 return null;

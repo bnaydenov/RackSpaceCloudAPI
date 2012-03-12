@@ -14,6 +14,8 @@ ROAD MAP AND CURRENT STATUS:
 		- Get Server details 
 		- Create Server
 		- Delete Server
+		- Update server admin password
+		- Update server name
 
 2. RackSpaceCloudLoadBalancer found at http://www.rackspace.com/cloud/cloud_hosting_products/loadbalancers/
 Will be implemented after RackSpaceCloudServers
