@@ -78,10 +78,28 @@ namespace ConsoleClient
                 {
                     ListImages(rackSpaceCloudUserName, rackSpaceCloudAPIKey, rackSpaceCloudAuthManagementURL, Convert.ToBoolean(myargs["listimages"].ToString()));
                 }
+                //-getimagedetails=imageId get image details for given imageId
+                else if (myargs.ContainsKey("getimagedetails"))
+                {
+                    GetImageDetails(rackSpaceCloudUserName, rackSpaceCloudAPIKey, rackSpaceCloudAuthManagementURL, Convert.ToInt32(myargs["getimagedetails"].ToString()));
+
+                }
+                
                 
          }
 
             Console.ReadKey();
+        }
+
+        private static void GetImageDetails(string rackSpaceCloudUserName, string rackSpaceCloudAPIKey, string rackSpaceCloudAuthManagementURL, int imageId)
+        {
+            Console.WriteLine("Get details about image with ID: " + imageId.ToString());
+            
+            AuthInfo authToken = GetRackSpaceAuthInfo(rackSpaceCloudUserName, rackSpaceCloudAPIKey, rackSpaceCloudAuthManagementURL);
+
+            RackSpaceCloudServersAPI.RackSpaceCloudServersAPI rackSpaceCloudServersAPI = new RackSpaceCloudServersAPI.RackSpaceCloudServersAPI(authToken);
+            PrintImageDetails(rackSpaceCloudServersAPI.GetImageDetails(imageId));
+
         }
 
         private static void ListImages(string rackSpaceCloudUserName, string rackSpaceCloudAPIKey, string rackSpaceCloudAuthManagementURL, bool details)
@@ -104,20 +122,25 @@ namespace ConsoleClient
             {
                 foreach (var image in rackSpaceCloudServersAPI.ListImages(details))
                 {
-                    Console.WriteLine("Image ID:" + image.id);
-                    Console.WriteLine("Image name:" + image.name);
-                    Console.WriteLine("Image updated:" + image.updated);
-                    Console.WriteLine("Image status:" + image.status);
-                    Console.WriteLine("Image created:" + image.created);
-                    Console.WriteLine("Image serverId:" + image.serverId);
-                    Console.WriteLine("Image progress:" + image.progress);
-
-                    Console.WriteLine("********************************");
-                    Console.WriteLine();
+                    PrintImageDetails(image);
                 }
             }
             
 
+        }
+
+        private static void PrintImageDetails(RackSpaceCloudServerImage image)
+        {
+            Console.WriteLine("Image ID:" + image.id);
+            Console.WriteLine("Image name:" + image.name);
+            Console.WriteLine("Image updated:" + image.updated);
+            Console.WriteLine("Image status:" + image.status);
+            Console.WriteLine("Image created:" + image.created);
+            Console.WriteLine("Image serverId:" + image.serverId);
+            Console.WriteLine("Image progress:" + image.progress);
+
+            Console.WriteLine("********************************");
+            Console.WriteLine();
         }
 
         private static void UpdateServerName(string rackSpaceCloudUserName, string rackSpaceCloudAPIKey, string rackSpaceCloudAuthManagementURL,string serverId,string newServerName)
