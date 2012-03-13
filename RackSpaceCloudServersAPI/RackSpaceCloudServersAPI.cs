@@ -148,23 +148,65 @@ namespace RackSpaceCloudServersAPI
         }
 
 
-        
-        public List<string> ListImages()
+
+        public List<RackSpaceCloudServerImage> ListImages(bool details)
         {
-            
-            List<string> listImages = new List<string>();
+
+            List<RackSpaceCloudServerImage> listImages = new List<RackSpaceCloudServerImage>();
             
             RackSpaceCloudServer server = new RackSpaceCloudServer();
 
             var request = new RackSpaceCloudRequest(this._authInfo.ServerManagementUrl, this._authInfo.AuthToken);
 
 
-            var images = request.GetRequest("/images");
-
-            foreach (var image in images.images)
+            if (!details)
             {
-                listImages.Add(string.Format("Id: {0}", image.id));
-                listImages.Add(string.Format("Name: {0}", image.name));
+                var images = request.GetRequest("/images");
+
+                foreach (var image in images.images)
+                {
+                    listImages.Add(new RackSpaceCloudServerImage { id = image.id, name = image.name });
+                }
+            }
+            else
+            {
+                var images = request.GetRequest("/images/detail");
+
+                foreach (var image in images.images)
+                {
+
+                    var p = image as IDictionary<String, object>;
+
+                    object created;
+                    object serverId;
+                    object progress;
+                    
+                    if (!p.TryGetValue("created", out created))
+                    {
+                      created ="Empty";
+                    }
+
+                    if (!p.TryGetValue("serverId", out serverId))
+                    {
+                        serverId = "0";
+                    }
+
+                    if (!p.TryGetValue("progress", out progress))
+                    {
+                        progress = "0";
+                    }
+
+                    listImages.Add(new RackSpaceCloudServerImage
+                    {
+                        id = image.id,
+                        name = image.name,
+                        status = image.status,
+                        updated = image.updated,
+                        created = created.ToString(),
+                        serverId = Convert.ToInt32(serverId.ToString()),
+                        progress = Convert.ToInt32(progress.ToString())
+                    });
+                }
             }
 
             return listImages;
