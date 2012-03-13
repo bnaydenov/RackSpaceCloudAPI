@@ -17,6 +17,11 @@ ROAD MAP AND CURRENT STATUS:
 		- Update server admin password
 		- Update server name
 
+1.1.2. Image functionality
+       - List all images (with or without full server’s details)
+	   - Get image details by image id
+		
+		
 2. RackSpaceCloudLoadBalancer found at http://www.rackspace.com/cloud/cloud_hosting_products/loadbalancers/
 Will be implemented after RackSpaceCloudServers
 
